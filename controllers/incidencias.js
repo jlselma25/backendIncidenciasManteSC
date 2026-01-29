@@ -86,8 +86,6 @@ GuardarIncidencia = async(req, res = response ) => {
   
    }
 
-
-
    EliminarIncidencia = async(req, res = response ) => {
    
     const { id} = req.query;    
@@ -154,11 +152,24 @@ GuardarIncidencia = async(req, res = response ) => {
 
 
 
+  Status = async(req, res = response ) => {  
+     return res.json({ resul: 1});
+   }
+
+   Keepalive = async(req, res = response ) => {  
+     
+    return res.status(200).send('OK');
+}
+
+
+
   module.exports = {  
     CargarTiendas ,
     GuardarIncidencia ,
     CargarIncidencias ,
     EliminarIncidencia  ,
-    ActualizarIncidencia
+    ActualizarIncidencia,
+    Status,
+    Keepalive
    
  }

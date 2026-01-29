@@ -4,7 +4,9 @@ const {
 CargarTiendas,
 GuardarIncidencia,
 CargarIncidencias,
-EliminarIncidencia
+EliminarIncidencia,
+Keepalive,
+Status
 } = require('../controllers/incidencias');
 
 
@@ -15,6 +17,8 @@ router.get('/GuardarIncidencia/', GuardarIncidencia );
 router.get('/CargarIncidencias/', CargarIncidencias );
 router.get('/EliminarIncidencia/', EliminarIncidencia );
 router.get('/ActualizarIncidencia/', ActualizarIncidencia );
+router.get('/Keepalive/', Keepalive );
+router.get('/Status/', Status );
 
 
 
