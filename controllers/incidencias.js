@@ -113,20 +113,27 @@ GuardarIncidencia = async(req, res = response ) => {
    CargarIncidencias = async(req, res = response ) => { 
     try{        
         let sql;
-        const { fechaDesde,fechaHasta ,tienda , individual , id, prioridad} = req.query;  
+        const { fechaDesde,fechaHasta ,tienda , individual , id, prioridad, estado} = req.query;  
 
         const fechaDesdeFormateada = moment(fechaDesde, 'YYYY-MM-DD HH:mm:ss.SSSSS').format('YYYY-MM-DD 00:00:00');  
         const fechaHastaFormateada = moment(fechaHasta, 'YYYY-MM-DD HH:mm:ss.SSSSS').format('YYYY-MM-DD 23:59:59');  
 
         const filtroTiendas =   tienda != '-1' ? " AND Tienda ='" + tienda + "'" : '';
         const filtroPrioridad = prioridad != 0 ? " AND Prioridad =" + prioridad : '';
+        let filtroEstado  = "";
 
+        if (estado == 'PENDIENTE' )
+            filtroEstado = " AND Estado = '" + estado + "'";
+        else if(estado == 'FINALIZADO')
+            filtroEstado = " AND Estado = '" + estado + "'";
+
+       
         if (individual == 0){
-            sql  = "SELECT Fecha, id, Motivo Titulo, Tienda, Estado, Observaciones, C.Nombre, Prioridad FROM IncidenciasManteTiendas T JOIN Clientes C ON T.Tienda = C.Numero WHERE Fecha >='" + fechaDesdeFormateada + "' AND Fecha <='" + fechaHastaFormateada + "'" + filtroTiendas + filtroPrioridad + " ORDER BY Prioridad DESC, Fecha "
+            sql  = "SELECT Fecha, id, Motivo Titulo, Tienda, Estado, Observaciones, C.Nombre, Prioridad FROM IncidenciasManteTiendas T JOIN Clientes C ON T.Tienda = C.Numero WHERE Fecha >='" + fechaDesdeFormateada + "' AND Fecha <='" + fechaHastaFormateada + "'" + filtroEstado + filtroTiendas + filtroPrioridad + " ORDER BY Prioridad DESC, Fecha "
         }else{            
             sql = "SELECT Fecha, id, Motivo Titulo, Tienda, Estado, '' Nombre, Observaciones, Prioridad FROM IncidenciasManteTiendas WHERE id =" + id.ToString(); 
         }       
-  
+ 
         data = await executeQuery(sql,process.env.IP);         
 
         const mappedData = data.map(row => ({
@@ -159,7 +166,7 @@ GuardarIncidencia = async(req, res = response ) => {
     const { id } = req.query;    
     try{      
             
-        const query ="UPDATE IncidenciasManteTiendas SET Estado ='FINALIZDO' WHERE Id = " + id;
+        const query ="UPDATE IncidenciasManteTiendas SET Estado ='FINALIZADO' WHERE Id = " + id;
         await executeQuery(query,process.env.IP);  
         return res.json({
             resul: true,
