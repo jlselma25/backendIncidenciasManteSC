@@ -153,6 +153,28 @@ GuardarIncidencia = async(req, res = response ) => {
      }
  }
 
+ 
+   ActualizarEstadoIncidencia = async(req, res = response ) => {
+   
+    const { id } = req.query;    
+    try{      
+            
+        const query ="UPDATE IncidenciasManteTiendas SET Estado ='FINALIZDO' WHERE Id = " + id;
+        await executeQuery(query,process.env.IP);  
+        return res.json({
+            resul: true,
+                
+        });
+       
+    }catch(error){
+        console.log(error);
+        return res.json({
+        resul: false,                
+            });
+        }   
+    
+   }
+
 
 
   Status = async(req, res = response ) => {  
@@ -172,6 +194,7 @@ GuardarIncidencia = async(req, res = response ) => {
     CargarIncidencias ,
     EliminarIncidencia  ,
     ActualizarIncidencia,
+    ActualizarEstadoIncidencia,
     Status,
     Keepalive
    
