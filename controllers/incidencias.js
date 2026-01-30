@@ -129,7 +129,7 @@ GuardarIncidencia = async(req, res = response ) => {
 
        
         if (individual == 0){
-            sql  = "SELECT Fecha, id, Motivo Titulo, Tienda, Estado, Observaciones, C.Nombre, Prioridad FROM IncidenciasManteTiendas T JOIN Clientes C ON T.Tienda = C.Numero WHERE Fecha >='" + fechaDesdeFormateada + "' AND Fecha <='" + fechaHastaFormateada + "'" + filtroEstado + filtroTiendas + filtroPrioridad + " ORDER BY Prioridad DESC, Fecha "
+            sql  = "SELECT Fecha, id, Motivo Titulo, Tienda, Estado, Observaciones, C.Nombre, Prioridad FROM IncidenciasManteTiendas T JOIN Clientes C ON T.Tienda = C.Numero WHERE Fecha >='" + fechaDesdeFormateada + "' AND Fecha <='" + fechaHastaFormateada + "'" + filtroEstado + filtroTiendas + filtroPrioridad + " ORDER BY Prioridad , Fecha "
         }else{            
             sql = "SELECT Fecha, id, Motivo Titulo, Tienda, Estado, '' Nombre, Observaciones, Prioridad FROM IncidenciasManteTiendas WHERE id =" + id.ToString(); 
         }       
